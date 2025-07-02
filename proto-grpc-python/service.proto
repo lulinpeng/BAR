@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package example;
+
+service TestService {
+  rpc GetData (DataRequest) returns (DataResponse) {}
+  // stream service
+  rpc StreamData (StreamRequest) returns (stream DataChunkResponse) {}
+}
+
+message DataRequest {
+  string name = 1;
+  int32 age = 2;
+}
+
+message DataResponse {
+  repeated string names = 1;
+  int32 age = 2;
+}
+
+// stream
+message StreamRequest {
+  string id = 1;
+}
+
+message DataChunkResponse {
+  bytes chunk = 1;
+}

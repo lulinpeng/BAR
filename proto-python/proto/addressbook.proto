@@ -1,0 +1,6 @@
+syntax = "proto3";
+import "A/person.proto";
+message AddressBook {
+    string holder = 1;
+    repeated Person persons = 2;
+  }

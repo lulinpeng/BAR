@@ -1,0 +1,13 @@
+module(name = "bazel_ckzg4844", version = "1.0")
+bazel_dep(name = "rules_cc", version = "0.1.1")
+
+bazel_dep(name = "blst_bazel", version = "1.0")
+archive_override(module_name = "blst_bazel",
+    urls = ["https://github.com/lulinpeng/BAR/archive/refs/heads/main.zip"],
+    strip_prefix= "BAR-main/blst-bazel",
+)
+blst = use_extension("@blst_bazel//:extensions/blst.bzl", "blst")
+use_repo(blst, "com_github_blst")
+
+ext_ckzg = use_extension("//:extensions/c_kzg_4844.bzl", "c_kzg_4844")
+use_repo(ext_ckzg, "com_github_c_kzg_4844")
