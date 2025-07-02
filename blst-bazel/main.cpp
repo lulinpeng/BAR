@@ -16,7 +16,7 @@ std::string Bytes2HexStr(const std::vector<uint8_t> &bytes) {
 }
 
 int main(void) {
-  std::vector<uint8_t> msg(100);
+  std::vector<uint8_t> msg(42);
   std::vector<uint8_t> hash(32);
 
   /* sha256 */
