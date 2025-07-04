@@ -29,7 +29,7 @@ int main(void) {
   printf("(the first %d bytes of) blob: ", print_len);
   print_hex((unsigned char *)&blob, print_len);
   printf("kzg commitment: ");
-  print_hex((unsigned char *)&kzg_commit, 48);
+  print_hex((unsigned char *)&kzg_commit, sizeof(KZGCommitment));
   assert(ret == C_KZG_OK);
 
   /* free kzg trust_setup */
