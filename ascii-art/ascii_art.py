@@ -3,18 +3,19 @@ import math
 import argparse
 import logging
 import time
+import os
 
 logging.basicConfig(format='[%(levelname)s] [%(filename)s:%(lineno)d] %(message)s', level=logging.INFO)
 
 class AsciiArt:
-    def __init__(self, scale_ratio_width:float=1.0, scale_ratio_height:float=1.0):
-        self.ascii_chars = " %#*+=-:" # "@%#*+=-:. "
+    def __init__(self, scale_ratio_width:float=1.0, scale_ratio_height:float=1.0, max_width:int=90, max_height:int=90, ascii_chars:str=" %#*+=-:"):
+        self.ascii_chars = ascii_chars
         self.ascii_art = [] # list of all ascii art strings of rows
         self.scale_ratio_width = scale_ratio_width # width scale ratio
         self.scale_ratio_height = scale_ratio_height # height scale ratio
         logging.info(f'scale_ratio_width = {self.scale_ratio_width}, scale_ratio_height = {self.scale_ratio_height}')
-        self.max_width = 90 # max number of ascii characters of each row
-        self.max_height = 90 # max number of ascii characters of each column
+        self.max_width = max_width # max number of ascii characters of each row
+        self.max_height = max_height # max number of ascii characters of each column
         logging.info(f'max_height = {self.max_height}, max_width = {self.max_width}')
 
         return
@@ -39,7 +40,8 @@ class AsciiArt:
         idx = round(n * (pixel - min_pixel) / (max_pixel - min_pixel))
         return self.ascii_chars[idx]
 
-    def image_to_ascii(self, img_path:str, outfile:str):
+    # convert image into text of ascii art
+    def image_to_ascii(self, img_path:str, outfile:str, save_digital_img:bool=None):
         img, width, height = self.load_and_preprocess_image(img_path)
         pixels = img.getdata()
         min_pixel, max_pixel  = min(pixels), max(pixels)
@@ -57,24 +59,43 @@ class AsciiArt:
             self.ascii_art.append(art_str)
         
         self.save_ascii_art(outfile)
+        if save_digital_img == True:
+            self.save_decimal_digits(outfile+'.mat')
         logging.info(f'outfile = {outfile}')
         return self.ascii_art
     
-    # save ascill art (as well as the digital matrix of the image) as a text file
+    # convert image into text of ascii art
+    def image_to_ascii_batch(self, indir:str, outdir:str='ascii_arts'):
+        images = os.listdir(indir)
+        images = [os.path.join(indir, image) for image in images]
+        os.makedirs(outdir, exist_ok=True)
+        for image in images:
+            path = os.path.join(outdir, image.split('/')[-1] + '.txt')
+            self.image_to_ascii(image, path) 
+            # pic_path = os.path.join(outdir_png, image.split('/')[-1] + '.png')
+            # self.ascii_art_to_image(pic_path)
+        logging.info(f'outdir = {outdir}')
+        return
+    
+    # save ascill art as a text file
     def save_ascii_art(self, outfile:str):
         logging.info(f'save ascii art to {outfile}')
         with open(outfile, 'w') as f:
             for art_str in self.ascii_art:
                 f.write(art_str + '\n')
-        outfile_mat = outfile + '.mat'
-        logging.info(f'save digital matrix to {outfile_mat}')
+        return
+    
+    # save image as decimal digits text file
+    def save_decimal_digits(self, outfile:str):
+        logging.info(f'save digital matrix to {outfile}')
         max_pixels = max([max(row) for row in self.matrix])
         decimal_digits = math.ceil(math.log10(max_pixels))
         logging.debug(f'max_pixels = {max_pixels}, decimal_digits = {decimal_digits}')
-        with open(outfile_mat, 'w') as f:
+        with open(outfile, 'w') as f:
             for row in self.matrix:
                 f.write(' '.join([str(e).rjust(decimal_digits,' ') for e in row]) + '\n')
         return
+
     
     # draw ascii art by print each row ascii art string every 'speed' seconds
     def draw_ascii_art(self, speed:float=0.0):
@@ -120,6 +141,21 @@ class AsciiArt:
         canvas.save(outfile)  # save it as picture
         logging.info(f'outfile = {outfile}')
         return outfile
+    
+    # convert batch of ascii art texts into batch of images
+    def ascii_art_to_image_batch(self, indir:str, outdir:str, font_size:int = 24, 
+                            text_color=(0, 0, 0),
+                            bgc=(255, 255, 255), # background color
+                            line_spacing=1.2):
+        ascii_arts = os.listdir(indir)
+        ascii_arts = [os.path.join(indir, ascii_art) for ascii_art in ascii_arts]
+        os.makedirs(outdir, exist_ok=True)
+        for ascii_art in ascii_arts:
+            self.load_ascii_art(ascii_art)
+            path = os.path.join(outdir, ascii_art.split('/')[-1] + '.png')
+            self.ascii_art_to_image(path, font_size, text_color, bgc, line_spacing)
+        logging.info(f'outdir = {outdir}')
+        return
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert a picture into ASCII art')
