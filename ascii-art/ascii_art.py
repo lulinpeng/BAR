@@ -2,6 +2,7 @@ from PIL import Image
 import math
 import argparse
 import logging
+import time
 
 logging.basicConfig(format='%(asctime)s.%(msecs)03d [%(levelname)s] [%(filename)s:%(lineno)d] %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S', level=logging.DEBUG)
@@ -74,11 +75,13 @@ class AsciiArt:
                 f.write(' '.join([str(e).rjust(decimal_digits,' ') for e in row]) + '\n')
         return
     
-    def draw_ascii_art(self):
+    # draw ascii art by print each row ascii art string every 'speed' seconds
+    def draw_ascii_art(self, speed:float=0.0):
         for art_str in self.ascii_art:
             print(art_str)
+            time.sleep(speed)
         return
-    
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert a picture into ASCII art')
     parser.add_argument('--infile', type=str, help='path of your image', required=True)
@@ -88,5 +91,5 @@ if __name__ == '__main__':
     logging.debug(f'infile = {args.infile}, outfile = {args.outfile}')
     art = AsciiArt(scale_ratio_width = 1.8)
     art.image_to_ascii(args.infile, args.outfile) 
-    art.draw_ascii_art()
+    art.draw_ascii_art(speed=0.05)
     
