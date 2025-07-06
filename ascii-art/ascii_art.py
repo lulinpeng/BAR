@@ -1,11 +1,10 @@
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import math
 import argparse
 import logging
 import time
 
-logging.basicConfig(format='%(asctime)s.%(msecs)03d [%(levelname)s] [%(filename)s:%(lineno)d] %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S', level=logging.DEBUG)
+logging.basicConfig(format='[%(levelname)s] [%(filename)s:%(lineno)d] %(message)s', level=logging.INFO)
 
 class AsciiArt:
     def __init__(self, scale_ratio_width:float=1.0, scale_ratio_height:float=1.0):
@@ -17,6 +16,7 @@ class AsciiArt:
         self.max_width = 90 # max number of ascii characters of each row
         self.max_height = 90 # max number of ascii characters of each column
         logging.info(f'max_height = {self.max_height}, max_width = {self.max_width}')
+
         return
 
     def load_and_preprocess_image(self, img_path:str):
@@ -57,6 +57,7 @@ class AsciiArt:
             self.ascii_art.append(art_str)
         
         self.save_ascii_art(outfile)
+        logging.info(f'outfile = {outfile}')
         return self.ascii_art
     
     # save ascill art (as well as the digital matrix of the image) as a text file
@@ -81,6 +82,44 @@ class AsciiArt:
             print(art_str)
             time.sleep(speed)
         return
+    
+    # load ascill art from text file
+    def load_ascii_art(self, infile:str):
+        with open(infile) as f:
+            self.ascii_art = f.readlines()
+        return
+    
+    # convert ascii art text into image
+    def ascii_art_to_image(self, outfile:str, font_size:int = 24, 
+                            text_color=(0, 0, 0),
+                            bgc=(255, 255, 255), # background color
+                            line_spacing=1.2):
+        # get font
+        font = ImageFont.truetype("./fonts/Monaco.ttf", font_size)
+        logging.debug(f'font = {font}')
+
+        max_line = max(self.ascii_art, key=len) # line with max length
+        logging.debug(f'max_line = {max_line}, {type(max_line)}')
+
+        bbox = font.getbbox(max_line) # bounding box of given text
+        logging.debug(f'bbox = {bbox}')
+        
+        char_width, char_height = bbox[2], bbox[3]
+        # image size
+        width = int(char_width)
+        height_step = int(char_height * line_spacing)
+        height = int(len(self.ascii_art) * height_step)
+        
+        canvas = Image.new("RGB", (width, height), bgc)
+        draw = ImageDraw.Draw(canvas)
+        y = 0
+        for line in self.ascii_art:
+            draw.text((0, y), line, fill=text_color, font=font)
+            y += height_step
+
+        canvas.save(outfile)  # save it as picture
+        logging.info(f'outfile = {outfile}')
+        return outfile
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert a picture into ASCII art')
@@ -93,4 +132,5 @@ if __name__ == '__main__':
     art = AsciiArt(scale_ratio_width = 1.8)
     art.image_to_ascii(args.infile, args.outfile) 
     art.draw_ascii_art(speed=args.speed)
+    art.ascii_art_to_image('ascii_art.png')
     

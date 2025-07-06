@@ -12,7 +12,7 @@ go version go1.24.1 darwin/arm64
 git clone https://github.com/ollama/ollama.git
 cd ollama/
 git checkout v0.9.5
-
+# brew install go
 go env -w GOPROXY=https://goproxy.cn,direct
 go build -ldflags="-s -w" -o ollama -buildvcs=false   .
 ```
@@ -35,8 +35,8 @@ go run . serve
 ## Access Ollama Server
 ```shell
 export OLLAMA_HOST=0.0.0.0:11434
-# pull a model
 
+# pull a model
 curl http://${OLLAMA_HOST}/api/pull -d '{"model":"llama3.2"}'
 
 curl http://${OLLAMA_HOST}/api/generate -d '{"model": "llama3.2", "prompt":"Why is the sky blue?", "stream":false}'
