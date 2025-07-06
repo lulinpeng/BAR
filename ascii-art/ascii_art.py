@@ -86,10 +86,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert a picture into ASCII art')
     parser.add_argument('--infile', type=str, help='path of your image', required=True)
     parser.add_argument('--outfile', type=str, default='ascii_art.txt', help='outoput file')
+    parser.add_argument('--speed', type=float, default=0.0, help='speed of drawing ascii art')
     args = parser.parse_args()
     logging.basicConfig(level=logging.DEBUG) 
     logging.debug(f'infile = {args.infile}, outfile = {args.outfile}')
     art = AsciiArt(scale_ratio_width = 1.8)
     art.image_to_ascii(args.infile, args.outfile) 
-    art.draw_ascii_art(speed=0.05)
+    art.draw_ascii_art(speed=args.speed)
     
