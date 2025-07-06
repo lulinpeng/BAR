@@ -7,14 +7,14 @@ logging.basicConfig(format='%(asctime)s.%(msecs)03d [%(levelname)s] [%(filename)
                     datefmt='%Y-%m-%d %H:%M:%S', level=logging.DEBUG)
 
 class AsciiArt:
-    def __init__(self, rescale_width:float=1.0, rescale_height:float=1.0):
+    def __init__(self, scale_ratio_width:float=1.0, scale_ratio_height:float=1.0):
         self.ascii_chars = " %#*+=-:" # "@%#*+=-:. "
-        self.ascii_art = []
-        self.rescale_width = rescale_width
-        self.rescale_height = rescale_height
-        logging.info(f'rescale_width = {self.rescale_width}, rescale_height = {self.rescale_height}')
-        self.max_width = 90
-        self.max_height = 90
+        self.ascii_art = [] # list of all ascii art strings of rows
+        self.scale_ratio_width = scale_ratio_width # width scale ratio
+        self.scale_ratio_height = scale_ratio_height # height scale ratio
+        logging.info(f'scale_ratio_width = {self.scale_ratio_width}, scale_ratio_height = {self.scale_ratio_height}')
+        self.max_width = 90 # max number of ascii characters of each row
+        self.max_height = 90 # max number of ascii characters of each column
         logging.info(f'max_height = {self.max_height}, max_width = {self.max_width}')
         return
 
@@ -22,7 +22,7 @@ class AsciiArt:
         img = Image.open(img_path).convert('L')
         w, h = img.size
         logging.debug(f'w * h = {w} * {h}, max_w * max_h = {self.max_width} * {self.max_height}')
-        w, h = round(w * self.rescale_width), round(h * self.rescale_height)
+        w, h = round(w * self.scale_ratio_width), round(h * self.scale_ratio_height)
         logging.debug(f'w * h = {w} * {h}, max_w * max_h = {self.max_width} * {self.max_height}')
         w, h = (self.max_width, math.floor(h * self.max_width / w)) if w > self.max_width else (w, h)
         logging.debug(f'w * h = {w} * {h}, max_w * max_h = {self.max_width} * {self.max_height}')
@@ -32,7 +32,7 @@ class AsciiArt:
         
         return img, w, h
 
-    # map pixel to char
+    # map pixel to ascii character
     def pixel_to_char(self, pixel, min_pixel:int, max_pixel:int):
         n = len(self.ascii_chars) - 1
         idx = round(n * (pixel - min_pixel) / (max_pixel - min_pixel))
@@ -86,7 +86,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     logging.basicConfig(level=logging.DEBUG) 
     logging.debug(f'infile = {args.infile}, outfile = {args.outfile}')
-    art = AsciiArt(rescale_width = 1.8)
+    art = AsciiArt(scale_ratio_width = 1.8)
     art.image_to_ascii(args.infile, args.outfile) 
     art.draw_ascii_art()
     
