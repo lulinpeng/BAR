@@ -30,8 +30,18 @@ $\mathsf{sk}\leftarrow\mathbb Z_q$, $\mathsf{pk} = g_1^{\mathsf{sk}}$. Note that
 
 - **Sign:** ***Input***: $m$*; **Output:*** $\sigma$. Details: $h=\mathtt{hash}(m)$, $H=\mathtt{hash2curve}(h)$, $\sigma =H^{\mathsf{sk}}\in G_2$. Note that $H\in G_2, \sigma \in G_2$.
 
-- **Verify:** ***Input:*** $(\sigma, m)$*; **Output:*** $y$. Details: $h=\mathtt{hash}(m)$, $H=\mathtt{hash2curve}(h)$, $y = (e(g_1, \sigma) \overset{?}{=} e(\mathsf{pk},H))$. Note that $y\in \{0,1\}$ and $H\in G_2$.
+- **Verify:** ***Input:*** $(\sigma, m)$*; **Output:*** $y$. Details: $h=\mathtt{hash}(m)$, $H=\mathtt{hash2curve}(h)$, $y = (e(g_1, \sigma) \overset{?}{=} e(\mathsf{pk},H))$. Note that $y=0$ or $y=1$ and $H\in G_2$.
 
 
 For more information about $r, q$, see and run [bls12_381_params.py](bls12_381_params.py). 
-Specifically, *r=0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001 = 52435875175126190479447740508185965837690552500527637822603658699938581184513* and  *q = 0x1a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f6241eabfffeb154000045ffaaaaaaab0000 = 4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129025752288709566988288*.
+```shell
+# hex
+r=0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001 
+# decimal
+r=52435875175126190479447740508185965837690552500527637822603658699938581184513
+
+# hex
+q=0x1a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f6241eabfffeb154000045ffaaaaaaab0000 
+# decimal
+q=4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129025752288709566988288
+```
