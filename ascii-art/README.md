@@ -1,9 +1,11 @@
-# Run
+# Quick Show
 ```shell
-python3 ascii_art.py --infile image.png --outfile ascii_art.txt
+python3 ascii_art.py img2txt  --infile image.png --outfile a.txt
 ```
+
 ## Output
-<span> 
+
+<span>
 
     %++++++++++++++++*#*#%%                                 %*+*%
     %+=====================+*%                           %#*+++++*#
@@ -26,4 +28,19 @@ python3 ascii_art.py --infile image.png --outfile ascii_art.txt
         #=====*%                      #+-:-+#   =:-+*#+-:+**=:=#  #=:-*#+--+% #+::=#%
      +==========+==*                  ######%    #+++# %#*++*%      #*+++#%   ######%
      **************#
-</span>
+
+# Usage
+## Image to ASCII Art Text
+```shell
+python3 ascii_art.py img2txt  --infile image.png --outfile a.txt
+```
+## ASCII Art Text to Image
+
+```shell
+python3 ascii_art.py txt2img --infile a.txt --outfile a.png
+```
+
+## Images to ASCII Art Images
+```shell
+python3 ascii_art.py imgs2imgs --indir images/
+```

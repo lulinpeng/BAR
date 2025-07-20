@@ -41,7 +41,8 @@ class AsciiArt:
         return self.ascii_chars[idx]
 
     # convert image into text of ascii art
-    def image_to_ascii(self, img_path:str, outfile:str, save_digital_img:bool=None):
+    def image_to_ascii(self, img_path:str, outfile:str=None, save_digital_img:bool=None):
+        outfile = 'ascii_art.txt' if outfile is None else outfile
         img, width, height = self.load_and_preprocess_image(img_path)
         pixels = img.getdata()
         min_pixel, max_pixel  = min(pixels), max(pixels)
@@ -65,7 +66,8 @@ class AsciiArt:
         return self.ascii_art
     
     # convert image into text of ascii art
-    def image_to_ascii_batch(self, indir:str, outdir:str='ascii_arts'):
+    def image_to_ascii_batch(self, indir:str, outdir:str=None):
+        outdir = 'ascii_arts' if outdir is None else outdir
         images = os.listdir(indir)
         images = [os.path.join(indir, image) for image in images]
         os.makedirs(outdir, exist_ok=True)
@@ -75,7 +77,7 @@ class AsciiArt:
             # pic_path = os.path.join(outdir_png, image.split('/')[-1] + '.png')
             # self.ascii_art_to_image(pic_path)
         logging.info(f'outdir = {outdir}')
-        return
+        return outdir
     
     # save ascill art as a text file
     def save_ascii_art(self, outfile:str):
@@ -111,10 +113,11 @@ class AsciiArt:
         return
     
     # convert ascii art text into image
-    def ascii_art_to_image(self, outfile:str, font_size:int = 24, 
+    def ascii_art_to_image(self, outfile:str=None, font_size:int = 24, 
                             text_color=(0, 0, 0),
                             bgc=(255, 255, 255), # background color
                             line_spacing=1.2):
+        outfile = 'ascii_art.png' if outfile is None else outfile
         # get font
         font = ImageFont.truetype("./fonts/Monaco.ttf", font_size)
         logging.debug(f'font = {font}')
@@ -143,10 +146,11 @@ class AsciiArt:
         return outfile
     
     # convert batch of ascii art texts into batch of images
-    def ascii_art_to_image_batch(self, indir:str, outdir:str, font_size:int = 24, 
+    def ascii_art_to_image_batch(self, indir:str, outdir:str=None, font_size:int = 24, 
                             text_color=(0, 0, 0),
                             bgc=(255, 255, 255), # background color
                             line_spacing=1.2):
+        outdir = 'ascii_art_png' if outdir is None else outdir
         ascii_arts = os.listdir(indir)
         ascii_arts = [os.path.join(indir, ascii_art) for ascii_art in ascii_arts]
         os.makedirs(outdir, exist_ok=True)
@@ -155,18 +159,41 @@ class AsciiArt:
             path = os.path.join(outdir, ascii_art.split('/')[-1] + '.png')
             self.ascii_art_to_image(path, font_size, text_color, bgc, line_spacing)
         logging.info(f'outdir = {outdir}')
-        return
+        return outdir
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert a picture into ASCII art')
-    parser.add_argument('--infile', type=str, help='path of your image', required=True)
-    parser.add_argument('--outfile', type=str, default='ascii_art.txt', help='outoput file')
-    parser.add_argument('--speed', type=float, default=0.0, help='speed of drawing ascii art')
-    args = parser.parse_args()
-    logging.basicConfig(level=logging.DEBUG) 
-    logging.debug(f'infile = {args.infile}, outfile = {args.outfile}')
-    art = AsciiArt(scale_ratio_width = 1.8)
-    art.image_to_ascii(args.infile, args.outfile) 
-    art.draw_ascii_art(speed=args.speed)
-    art.ascii_art_to_image('ascii_art.png')
+    subparsers = parser.add_subparsers(dest="command", title="available commands", metavar="command")
+    parser_img2txt = subparsers.add_parser("img2txt", help="convert a picture into ascii art text", description="convert a picture into ascii art text")
+    parser_img2txt.add_argument('--infile', type=str, help='path of your image', required=True)
+    parser_img2txt.add_argument('--outfile', type=str, default=None, help='outoput file')
+    parser_img2txt.add_argument('--speed', type=float, default=0.0, help='speed of drawing ascii art')
     
+    parser_txt2img = subparsers.add_parser("txt2img", help="convert a ascii art txt into a picture", description="convert a ascii art txt into a picture")
+    parser_txt2img.add_argument('--infile', type=str, help='path of your ascii art', required=True)
+    parser_txt2img.add_argument('--outfile', type=str, default=None, help='outoput picture')
+
+    parser_imgs2imgs = subparsers.add_parser("imgs2imgs", help="convert a batch of images into a batch of ascii-art images in ASCII art form")
+    parser_imgs2imgs.add_argument('--indir', type=str, help='directory of the original images', required=True)
+    parser_imgs2imgs.add_argument('--outdir', type=str, default=None, help='output directory')
+
+    args = parser.parse_args()
+
+    if not hasattr(args, "command") or args.command is None:
+        parser.print_help()
+    if args.command == 'img2txt':
+        logging.basicConfig(level=logging.DEBUG) 
+        logging.debug(f'infile = {args.infile}, outfile = {args.outfile}')
+        art = AsciiArt(scale_ratio_width = 1.8)
+        art.image_to_ascii(args.infile, args.outfile) 
+        art.draw_ascii_art(speed=args.speed)
+        art.ascii_art_to_image('ascii_art.png')
+    elif args.command == 'txt2img':
+        art = AsciiArt(scale_ratio_width = 1.8)
+        art.load_ascii_art(args.infile)
+        art.ascii_art_to_image(args.outfile)
+    elif args.command == 'imgs2imgs':
+        art = AsciiArt(scale_ratio_width = 1.8, max_width=240, ascii_chars=" %#*+=-:,.&$!^abcdfghjpqrstuvwxwzmn")
+        ascii_txt_dir = 'ascii_txt'
+        art.image_to_ascii_batch(args.indir, ascii_txt_dir)
+        art.ascii_art_to_image_batch(ascii_txt_dir, args.outdir)
