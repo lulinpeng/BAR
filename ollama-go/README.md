@@ -23,6 +23,7 @@ go build -ldflags="-s -w" -o ollama -buildvcs=false   .
 export OLLAMA_HOST=0.0.0.0:11439
 export OLLAMA_FLASH_ATTENTION=1
 export OLLAMA_KEEP_ALIVE=100m
+# export OLLAMA_MODELS=/root.ollama/models # set ollama models path
 ```
 
 ```shell
