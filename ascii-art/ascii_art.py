@@ -69,6 +69,7 @@ class AsciiArt:
     def image_to_ascii_batch(self, indir:str, outdir:str=None):
         outdir = 'ascii_arts' if outdir is None else outdir
         images = os.listdir(indir)
+        images.sort()
         images = [os.path.join(indir, image) for image in images]
         os.makedirs(outdir, exist_ok=True)
         for image in images:
@@ -152,6 +153,7 @@ class AsciiArt:
                             line_spacing=1.2):
         outdir = 'ascii_art_png' if outdir is None else outdir
         ascii_arts = os.listdir(indir)
+        ascii_arts.sort()
         ascii_arts = [os.path.join(indir, ascii_art) for ascii_art in ascii_arts]
         os.makedirs(outdir, exist_ok=True)
         for ascii_art in ascii_arts:
