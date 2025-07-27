@@ -30,3 +30,14 @@ The structure of 'media/' is shown below.
 │               │       └── partial_movie_file_list.txt
 │               └── SquareToCircle.mp4
 ```
+
+
+# FYI
+## Animation between 2D Shapes
+https://github.com/veltman/flubber
+## Bézier Curves
+http://pomax.github.io/bezierinfo/
+## Manim Tutorials
+https://docs.manim.community/en/stable/guides/deep_dive.html
+
+> .. the camera looks at the points attribute of a VMobject and **divides it into sets of four points** each. **Each** of these sets is then used to construct **a cubic Bézier curve** with the first and last entry describing the end points of the curve ...
