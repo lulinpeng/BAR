@@ -2,8 +2,7 @@ from manim import *
 
 class RotateDotAboutX(Scene):
     def construct(self):
-        pos = [2, 0, 0]
-        dot = Dot(pos)
+        dot = Dot(point = [2, 0, 0])
         self.play(Create(dot))
         x = [0, 0, 0]
         for _ in range(10): # rotate 'dot' about the base point 'x'
@@ -12,8 +11,7 @@ class RotateDotAboutX(Scene):
 
 class RotateLineAboutX(Scene):
     def construct(self):
-        pos = [0, 0, 0]
-        line = Line(pos)
+        line = Line(start = [0, 0, 0])
         self.play(Create(line))
         x = [0, 0, 0]
         for _ in range(10): # rotate 'line' about the base point 'x'
@@ -22,10 +20,8 @@ class RotateLineAboutX(Scene):
             
 class RotateAllAboutX(Scene):
     def construct(self):
-        pos = [0, 0, 0]
-        line = Line(pos)
-        pos = [2, 0, 0]
-        dot = Dot(pos)
+        line = Line(start = [0, 0, 0])
+        dot = Dot(point = [2, 0, 0])
         self.play(Create(line), Create(dot))
         x = [0, 0, 0]
         for _ in range(10): # rotate 'line' and 'dot' about the base point 'x'
