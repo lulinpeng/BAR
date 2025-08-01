@@ -4,6 +4,8 @@ Apple MacBook Pro (14-inch, M4, 2024). Specs: Apple M4 chip (10-core CPU/16-core
 ```shell
 zsdt 1.5.7
 # https://github.com/facebook/zstd/blob/v1.5.7/doc/README.md
+
+bazel --version # bazel 8.2.1-homebrew
 ```
 # Build
 ```shell
