@@ -17,6 +17,14 @@ go env -w GOPROXY=https://goproxy.cn,direct
 go build -ldflags="-s -w" -o ollama -buildvcs=false   .
 ```
 
+## CUDA Version
+```shell
+cd ollama/
+cmake -B build -DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES="86"
+cmake --build build --config Release -j 16
+ls -al build/lib/ollama/ # find all *.so
+```
+
 # Run
 ## Start Ollama Server
 ```shell
