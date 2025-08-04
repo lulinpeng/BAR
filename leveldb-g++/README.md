@@ -1,9 +1,10 @@
 # Installation
+
 ```shell
 brew install leveldb
 ```
-# C++
 
+# Build and Run
 ```shell
 g++ main.cpp -std=c++11 -lleveldb -L/opt/homebrew/lib -I/opt/homebrew/include
 ./a.out
