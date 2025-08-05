@@ -13,6 +13,7 @@ bazel build //:main -c opt --enable_bzlmod
 ./bazel-bin/main
 # buf size: 100405
 # out size: 22
+# Time elapsed: 798 us
 ```
 # Reference
 ZSTD API: https://raw.githack.com/facebook/zstd/release/doc/zstd_manual.html
