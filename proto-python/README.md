@@ -19,4 +19,9 @@ protoc --proto_path=${PROTODIR} --python_out=${PYPROTODIR} $(find ${PROTODIR} -n
 ```shell
 export PYTHONPATH="${PYTHONPATH}:${PYPROTODIR}"
 python3 parser.py
+
+# person: <class 'A.person_pb2.Person'>
+# {'name': 'Alice', 'age': 18, 'emails': ['aaa@xxx.com', 'bbb@xxx.com'], 'scores': {'a': 5, 'b': 4}}
+# book: <class 'addressbook_pb2.AddressBook'>
+# {'holder': 'Bob', 'persons': [{'name': 'Alice', 'age': 18, 'emails': ['aaa@xxx.com', 'bbb@xxx.com'], 'scores': {'a': 5, 'b': 4}}]}
 ```
