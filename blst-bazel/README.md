@@ -28,9 +28,9 @@ The details of BLS signature scheme are as follows.
 - **KeyGen:** ***Input**: nothing; **Output:*** $(\mathsf{sk}, \mathsf{pk})$. Details:
 $\mathsf{sk}\leftarrow\mathbb Z_r$, $\mathsf{pk} = g_1^{\mathsf{sk}}$. Note that $\mathsf{pk}\in G_1$.
 
-- **Sign:** ***Input***: $m$*; **Output:*** $\sigma$. Details: $h=\mathtt{hash}(m)$, $H=\mathtt{hash2curve}(h)$, $\sigma =H^{\mathsf{sk}}\in G_2$. Note that $H\in G_2, \sigma \in G_2$.
+- **Sign:** ***Input***: $m, \mathsf{sk}$*; **Output:*** $\sigma$. Details: $h=\mathtt{hash}(m)$, $H=\mathtt{hash2curve}(h)$, $\sigma =H^{\mathsf{sk}}\in G_2$. Note that $H\in G_2, \sigma \in G_2$.
 
-- **Verify:** ***Input:*** $(\sigma, m)$*; **Output:*** $y$. Details: $h=\mathtt{hash}(m)$, $H=\mathtt{hash2curve}(h)$, $y = (e(g_1, \sigma) \overset{?}{=} e(\mathsf{pk},H))$. Note that $y=0$ or $y=1$ and $H\in G_2$.
+- **Verify:** ***Input:*** $(\sigma, m), \mathsf{pk}$*; **Output:*** $y$. Details: $h=\mathtt{hash}(m)$, $H=\mathtt{hash2curve}(h)$, $y = (e(g_1, \sigma) \overset{?}{=} e(\mathsf{pk},H))$. Note that $y=0$ or $y=1$ and $H\in G_2$.
 
 
 For more information about $r, q$, see and run [bls12_381_params.py](bls12_381_params.py). 
