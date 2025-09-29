@@ -6,7 +6,7 @@ pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple
 # generate 'service_pb2.py' and 'service_pb2_grpc.py'
 python3 -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. service.proto
 ```
-
+<center><img src="graphviz.svg" ></center>
 # Run
 # Start server
 ```shell
