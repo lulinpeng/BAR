@@ -9,6 +9,8 @@ cd FlameGraph/
 export PATH=$PATH:$(pwd)
 ```
 # Quick Start
+Perf is a tool that assesses the performance of a target program by **sampling** various CPU events and call stack information at a specified frequency. *The core principle is straightforward: **if a particular function or instruction is time-consuming, it will be sampled more frequently**.*
+
 ```shell
 g++ -g demo.cpp -std=c++11 # -g for 'debug'
 perf stat ./a.out > /dev/null
