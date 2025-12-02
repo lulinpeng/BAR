@@ -1,6 +1,7 @@
 # ENV
 ```shell
 Ubuntu:22.04
+# See Dockerfile for more details 
 ```
 # BUILD
 ```shell
@@ -12,6 +13,10 @@ FLAG="-I/usr/include -I/usr/local/include -L/usr/lib/x86_64-linux-gnu -L/usr/loc
 g++ -std=c++14 -o server server.cpp utils.h hello.pb.cc hello.grpc.pb.cc $FLAG
 
 g++ -std=c++14 -o client client.cpp utils.h hello.pb.cc hello.grpc.pb.cc $FLAG
+
+
+# Code Format
+clang-format -style='{BasedOnStyle: google, ColumnLimit: 300}' -i *.cpp *.h
 ```
 
 # RUN
@@ -20,12 +25,20 @@ g++ -std=c++14 -o client client.cpp utils.h hello.pb.cc hello.grpc.pb.cc $FLAG
 ./server -h 0.0.0.0 -p 5000
 ./client -h localhost -p 5000
 ```
-## Secure Version
+## (One-Way TLS) Secure Version
 ```shell
 sh gen_certs.sh # generate certs
 
 ./server -h 0.0.0.0 -p 5000 -s 
 ./client -h localhost -p 5000 -s 
+```
+
+## (Mutual TLS) Secure Version
+```shell
+sh gen_certs.sh # generate certs
+
+./server -h 0.0.0.0 -p 5000 -s -d
+./client -h localhost -p 5000 -s -d
 ```
 
 # Sniffer

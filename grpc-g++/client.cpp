@@ -1,16 +1,18 @@
-#include "hello.grpc.pb.h"
-#include "utils.h"
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/security/credentials.h>
+
 #include <iostream>
 #include <thread>
+
+#include "hello.grpc.pb.h"
+#include "utils.h"
 using namespace std;
 using hello::Greeter;
 using hello::HelloReply;
 using hello::HelloRequest;
 
 class GreeterClient {
-public:
+ public:
   GreeterClient(shared_ptr<grpc::Channel> channel) : stub_(Greeter::NewStub(channel)) {}
 
   string SayHello(const string &name) {
@@ -20,29 +22,40 @@ public:
     grpc::ClientContext context;
     context.set_deadline(chrono::system_clock::now() + chrono::seconds(3));
     grpc::Status status = stub_->SayHello(&context, req, &rep);
-    if (status.ok()) return rep.message();
+    if (status.ok())
+      return rep.message();
     else
       return "RPC error: " + status.error_message();
   }
 
-private:
+ private:
   unique_ptr<Greeter::Stub> stub_;
 };
 
 int main(int argc, char **argv) {
   cout << "i am client" << endl;
-  Utils::Config config(false, "localhost", "50000");
+  Utils::Config config(false, false, "localhost", "50000");
+  config.Print();
   config.parse_args(argc, argv);
   cout << "create inseucre channel (by default)" << endl;
+  config.Print();
   auto creds = grpc::InsecureChannelCredentials();
 
   if (config.secure) {
     grpc::SslCredentialsOptions ssl_opts;
     cout << "set CA certificate: verify other's identity" << endl;
     ssl_opts.pem_root_certs = Utils::read_file("certs/ca.crt");
-    cout << "set my certificate: prove my own identity" << endl;
-    ssl_opts.pem_private_key = Utils::read_file("certs/client.key");
-    ssl_opts.pem_cert_chain = Utils::read_file("certs/client.crt");
+    if (config.mutual_tls) {
+      cout << "Mutual TLS" << endl;
+      cout << "set my certificate: prove my own identity" << endl;
+      ssl_opts.pem_private_key = Utils::read_file("certs/client.key");
+      ssl_opts.pem_cert_chain = Utils::read_file("certs/client.crt");
+    } else {
+      cout << "One-Way TLS" << endl;
+      grpc::SslCredentialsOptions ssl_opts;
+      cout << "set CA certificate: verify other's identity" << endl;
+      ssl_opts.pem_root_certs = Utils::read_file("certs/ca.crt");
+    }
     cout << "create secure channel with " << config.address + ":" + config.port << endl << endl;
     creds = grpc::SslCredentials(ssl_opts);
   }
