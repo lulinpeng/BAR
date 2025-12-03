@@ -42,6 +42,17 @@ sh gen_certs.sh # generate certs
 ```
 
 # Sniffer
+
+```shell
+# apt install tshark tcpdump -y
+tcpdump -i any -A -s 0 'tcp port 5000'
+
+tcpdump -i any -s 0 -w xxx.pcap port 5000
+
+tshark -r xxx.pcap
+```
+
+
 ```shell
 python3 sniffer.py
 
