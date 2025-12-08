@@ -70,7 +70,7 @@ curl --http2 -v https://localhost:5000
 
 >**The core validation logic for CA certificate:**
 >1. I get a public key as a verifying key from the root certificate.
->2. I verify the signature of the certificate from the counterpart to ensure the certificate is really issued by the CA.
+>2. I verify the signature of the certificate sent by the counterpart to ensure the certificate is really issued by the CA of the root certificate.
 >3. I challenge the counterpart to prove ownership of private key which is corresponds to the public key inside the certificate.
 
 **My certificate: prove my own identity.** *It contains my public key and identity information, signed by a CA to authenticate me to others. Moreover, it is paired with its private key, creates digital signatures that demonstrate I control this identity.*
