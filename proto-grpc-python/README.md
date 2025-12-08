@@ -13,6 +13,11 @@ python3 -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. service.prot
 ```shell
 python3 server.py
 
+# Server started on port 50051
+# Get request:
+# name: "alice"
+# age: 15
+
 # Get request:
 # name: "alice"
 # age: 15
@@ -30,12 +35,21 @@ python3 server.py
 ```shell
 python3 client.py # generate 'request.bin' and 'response.bin'
 
+# ++++ test GetData rpc +++++
 # Get response:
 # names: "bob"
 # names: "mike"
 # names: "lisa"
 # age: 20
 
+# +++++ load request.bin as GRPC request +++++
+# Get response:
+# names: "bob"
+# names: "mike"
+# names: "lisa"
+# age: 20
+
+# +++++ test StreamData rpc +++++
 # recv: chunk: "chunk0"
 
 # recv: chunk: "chunk1"
@@ -43,4 +57,5 @@ python3 client.py # generate 'request.bin' and 'response.bin'
 # recv: chunk: "chunk2"
 
 # recv: chunk: "chunk3"
+
 ```
