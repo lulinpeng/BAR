@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
   if (config.secure) {
     grpc::SslServerCredentialsOptions ssl_opts;
     cout << "set CA certificate: verify other's identity" << endl;
-    ssl_opts.pem_root_certs = Utils::read_file("certs/ca.crt");
+    ssl_opts.pem_root_certs = Utils::read_file("certs/ca.crt");// If no root certificate is specified, the system's root certificates will be used.
     ssl_opts.client_certificate_request = GRPC_SSL_REQUEST_AND_REQUIRE_CLIENT_CERTIFICATE_AND_VERIFY;
     cout << "set my certificate: prove my own identity" << endl;
     ssl_opts.pem_key_cert_pairs.push_back({Utils::read_file("certs/server.key"), Utils::read_file("certs/server.crt")});
