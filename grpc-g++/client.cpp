@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
       ssl_opts.pem_private_key = Utils::read_file("certs/client.key");
       ssl_opts.pem_cert_chain = Utils::read_file("certs/client.crt");
     } else {
-      cout << "One-Way TLS" << endl;
+      cout << "One-Way TLS (only client verifies server)" << endl;
     }
     cout << "create secure channel with " << config.address + ":" + config.port << endl << endl;
     creds = grpc::SslCredentials(ssl_opts);
