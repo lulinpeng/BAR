@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
   if (config.secure) {
     grpc::SslCredentialsOptions ssl_opts;
     cout << "set CA certificate: verify other's identity" << endl;
-    ssl_opts.pem_root_certs = Utils::read_file("certs/ca.crt");
+    ssl_opts.pem_root_certs = Utils::read_file("certs/ca.crt"); // If no root certificate is specified, the system's root certificates will be used.
     if (config.mutual_tls) {
       cout << "Mutual TLS" << endl;
       cout << "set my certificate: prove my own identity" << endl;
@@ -52,9 +52,6 @@ int main(int argc, char **argv) {
       ssl_opts.pem_cert_chain = Utils::read_file("certs/client.crt");
     } else {
       cout << "One-Way TLS" << endl;
-      grpc::SslCredentialsOptions ssl_opts;
-      cout << "set CA certificate: verify other's identity" << endl;
-      ssl_opts.pem_root_certs = Utils::read_file("certs/ca.crt");
     }
     cout << "create secure channel with " << config.address + ":" + config.port << endl << endl;
     creds = grpc::SslCredentials(ssl_opts);
