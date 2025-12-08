@@ -66,11 +66,14 @@ curl --http1.0 -v https://localhost:5000
 curl --http2 -v https://localhost:5000
 ```
 # ABOUT CERTIFICATE
-**CA Certificate: verify other's identity.** *It establishes trust by validating that remote parties' certificates are signed by trusted authorities. Moreover, The CA cert contains the public key needed to verify signatures on other parties' certificates in the PKI chain.*
+**Root Certificate:** it serves as a ***trust anchor*** and *requires no verification* ***since it is assumed to be trusted.*** Moreover, the root certificate is a **self-signed certificate** that represents the identity and public key of a Certificate Authority (CA), which can be loaded from either a ***specified path or the system default.***
 
 >**The core validation logic for CA certificate:**
->1. I hold a public key of a CA that I trust.
+>1. I get a public key as a verifying key from the root certificate.
 >2. I verify the signature of the certificate from the counterpart to ensure the certificate is really issued by the CA.
->3. I challeng the counterpart to prove ownership of private key which is corresponds to the public key inside the certificate.
+>3. I challenge the counterpart to prove ownership of private key which is corresponds to the public key inside the certificate.
 
-**My certificate: prove my own identity.** *It contains my public key and identity information, signed by a CA to authenticate me to others. Moreover, it is paired with its private key, creates digital signatures that demonstrate I control this identity*
+**My certificate: prove my own identity.** *It contains my public key and identity information, signed by a CA to authenticate me to others. Moreover, it is paired with its private key, creates digital signatures that demonstrate I control this identity.*
+
+## Why use certificates instead of just public keys?
+Rather than just being a static key string, a certificate **binds a public key to a human-readable identity (like a name or domain)**, enforces a **validity period** with set expiration dates, and supports **revocation mechanisms** to actively invalidate a compromised key.
