@@ -77,3 +77,13 @@ curl --http2 -v https://localhost:5000
 
 ## Why use certificates instead of just public keys?
 Rather than just being a static key string, a certificate **binds a public key to a human-readable identity (like a name or domain)**, enforces a **validity period** with set expiration dates, and supports **revocation mechanisms** to actively invalidate a compromised key.
+
+# ABOUT TLS
+| Version | Release Year | RTT | Current Status |
+|:-------:|:------------:|:---:|:--------------:|
+| SSL 2.0 |     1995     |  2  |   ~~In Use~~   |
+| SSL 3.0 |     1996     |  2  |   ~~In Use~~   |
+| TLS 1.0 |     1999     |  2  |   ~~In Use~~   |
+| TLS 1.1 |     2006     |  2  |   ~~In Use~~   |
+| TLS 1.2 |     2008     |  2  |     In Use     |
+| TLS 1.3 |     2018     |  1  |     In Use     |
