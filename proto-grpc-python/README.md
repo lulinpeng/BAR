@@ -5,6 +5,12 @@ pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple
 
 # generate 'service_pb2.py' and 'service_pb2_grpc.py'
 python3 -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. service.proto
+
+# For multi-level proto structures, refer to https://github.com/lulinpeng/BAR/tree/main/proto-python
+# export PROTODIR=./proto
+# export PYPROTODIR=./generated
+# rm -rf ${PYPROTODIR} && mkdir ${PYPROTODIR}
+# protoc --proto_path=${PROTODIR} --python_out=${PYPROTODIR} $(find ${PROTODIR} -name '*.proto')
 ```
 <center><img src="graphviz.svg" ></center>
 
