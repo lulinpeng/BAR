@@ -122,7 +122,7 @@ Content Type (1 byte) + TLS Version (2 bytes) + Data Length (2 bytes) + Alert Le
 ```
 ### ApplicationData (Content Type=0x17)
 ```shell
-# [Record Layer Header (5 bytes)] + [Application Layer]
+# [Record Layer Header (5 bytes)] + [Application Data Layer]
 Content Type (1 byte) + TLS Version (2 bytes) + Data Length (2 bytes) + Encrypted Data (x bytes)
 
 17 03 03 00 30 -> 0x17: application_data, 0x0303: TLS 1.2, 0x0030: 48 bytes
