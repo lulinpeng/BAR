@@ -7,6 +7,7 @@ Dumping heap profile to ./profiles/heap.0001.heap (2 MB allocated cumulatively, 
 # ENV
 
 ```shell
+Machine: Intel Xeon
 ubuntu:22.04
 apt update && apt install -y libgoogle-perftools-dev google-perftools
 ```
