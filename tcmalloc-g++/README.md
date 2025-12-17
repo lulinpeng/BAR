@@ -1,11 +1,12 @@
 # INTRO
 ```tcmalloc``` records ***how much memory has been allocated so far*** and ***how much is still in use and not yet released.*** Further, the sampling report can show ***which functions are using how much memory***.
 
-*When an application is **linked with the TCMalloc** library (typically via a compiler flag like -ltcmalloc), TCMalloc's allocation functions effectively **"take over" all calls** to the standard memory management routines. The program continues to call malloc()and free()as usual, but these calls are **transparently redirected** to TCMalloc's implementation.*
-
 ```shell
 Dumping heap profile to ./profiles/heap.0001.heap (2 MB allocated cumulatively, 1 MB currently in use)
 ```
+
+*When an application is **linked with the TCMalloc** library (typically via a compiler flag like -ltcmalloc), TCMalloc's allocation functions effectively **"take over" all calls** to the standard memory management routines. The program continues to call malloc()and free()as usual, but these calls are **transparently redirected** to TCMalloc's implementation.*
+
 # ENV
 
 ```shell
