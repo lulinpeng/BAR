@@ -26,7 +26,7 @@ g++ demo_attach.cpp
 nohup ./a.out > /dev/null & # start the process
 
 ps aux # find the target process id
-gdb -p [process id] 
+gdb -p [process id] # gdb attach [process id], it will pause the target running process
 # now the target process is paused
 (gdb) bt
 (gdb) info threads # show all threads
