@@ -46,7 +46,17 @@ export HEAP_PROFILE_ALLOCATION_INTERVAL=2097152 # generate a profile for every 2
 # 24-th memory leak: 1 MB
 # free
 ```
+# disable tcmalloc
+At times, even when tcmalloc is linked, it may be necessary to disable tcmalloc sampling due to significant performance degradation or other reasons. The way to disable it is by setting the following environment variables:
+```shell
+export TCMALLOC_SAMPLE_PARAMETER=0
 
+export HEAPPROFILE=
+
+export HEAPCHECK=
+
+export HEAP_PROFILE_ALLOCATION_INTERVAL=
+```
 # ANALYSIS
 ```shell
 google-pprof --list=main ./simple_memory_growth ./profiles/heap.0008.heap
