@@ -29,6 +29,8 @@ class Config {
         this->secure = true;
       else if (arg == "-d")
         this->mutual_tls = true;
+      else if (arg == "-c")
+        this->enable_compression = true;
       else if (arg == "-h" && i + 1 < argc)
         this->address = argv[++i];
       else if (arg == "-p" && i + 1 < argc)
