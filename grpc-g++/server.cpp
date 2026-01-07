@@ -30,8 +30,7 @@ class GreeterServiceImpl : public Greeter::Service {
 };
 
 int main(int argc, char *argv[]) {
-  Utils::Config config(false, false, "0.0.0.0", "50000");
-  config.Print();
+  Utils::Config config;
   config.parse_args(argc, argv);
   cout << "i am server, running on " << config.address << ":" << config.port << endl;
   config.Print();
