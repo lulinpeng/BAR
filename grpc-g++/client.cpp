@@ -34,8 +34,7 @@ class GreeterClient {
 
 int main(int argc, char **argv) {
   cout << "i am client" << endl;
-  Utils::Config config(false, false, "localhost", "50000");
-  config.Print();
+  Utils::Config config;
   config.parse_args(argc, argv);
   cout << "create inseucre channel (by default)" << endl;
   config.Print();
