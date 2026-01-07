@@ -7,18 +7,20 @@ class Config {
  public:
   bool secure;
   bool mutual_tls;
+  bool enable_compression;
   string address;
   string port;
 
  public:
-  Config(bool secure, bool mutual_tls, string address, string port) {
+  Config(bool secure=false, bool mutual_tls=false, bool enable_compression=false, string address="0.0.0.0", string port="5000") {
     this->secure = secure;
     this->mutual_tls = mutual_tls;
+    this->enable_compression = enable_compression;
     this->address = address;
     this->port = port;
   }
 
-  void Print() { cout << "CONFIG: secure:" << secure << ", mutual_tls: " << mutual_tls << ", address: " << address << ", port: " << port << endl; }
+  void Print() { cout << "CONFIG: secure:" << secure << ", mutual_tls: " << mutual_tls << ", enable_compression: " << enable_compression << ", address: " << address << ", port: " << port << endl; }
 
   void parse_args(int argc, char **argv) {
     for (int i = 1; i < argc; i++) {
