@@ -48,17 +48,9 @@ sh gen_certs.sh # generate certs
 ## Communication Compression Version
 Note that: the compression algorithm specified ***by the client controls request compression***, while the compression algorithm specified ***by the server controls response compression***, with **each operating independently**.
 
-To monitor the network traffic, you may use the command ```nload lo -a 4 -m```.
 
 ```shell
-apt update && apt install -y nload iproute2
-ip a # list all network card
-# nload [network card name] -a [time window] -m
-nload lo -a 4 -m 
-```
-
-```shell
-# both enable gPRF compression
+# both enable gPRC compression
 ./server_compress -h 0.0.0.0 -p 5000 -c # '-c' server compressses response
 ./client_compress -h localhost -p 5000 -c # '-c' client compresses request
 
@@ -73,6 +65,24 @@ nload lo -a 4 -m
 # both do not enable gPRC compression
 ./server_compress -h 0.0.0.0 -p 5000
 ./client_compress -h localhost -p 5000
+```
+
+To monitor the network traffic, you may use the command ```nload lo -a 4 -m```.
+
+```shell
+apt update && apt install -y nload iproute2
+ip a # list all network card
+# nload [network card name] -a [time window] -m
+nload lo -a 4 -m
+
+# Device lo [127.0.0.1] (1/1):
+# ===================================================================
+# Incoming:                                     Outgoing:
+# Curr: 0.00 Bit/s                              Curr: 0.00 Bit/s
+# Avg: 0.00 Bit/s                               Avg: 0.00 Bit/s
+# Min: 0.00 Bit/s                               Min: 0.00 Bit/s
+# Max: 0.00 Bit/s                               Max: 0.00 Bit/s
+# Ttl: 326.99 MByte                             Ttl: 326.99 MByte
 ```
 
 # Sniffer
