@@ -8,16 +8,16 @@ protobuf==5.29.5 # python
 
 # Build
 ```shell
-export PROTODIR=./proto
-export PYPROTODIR=./generated
-rm -rf ${PYPROTODIR} && mkdir ${PYPROTODIR}
-protoc --proto_path=${PROTODIR} --python_out=${PYPROTODIR} $(find ${PROTODIR} -name '*.proto')
+export PROTO_DIR=./proto
+export PYTHON_OUTPUT_DIR=./generated
+rm -rf ${PYTHON_OUTPUT_DIR} && mkdir ${PYTHON_OUTPUT_DIR}
+protoc --proto_path=${PROTO_DIR} --python_out=${PYTHON_OUTPUT_DIR} $(find ${PROTO_DIR} -name '*.proto')
 ```
 
 # Run
 
 ```shell
-export PYTHONPATH="${PYTHONPATH}:${PYPROTODIR}"
+export PYTHONPATH="${PYTHONPATH}:${PYTHON_OUTPUT_DIR}"
 python3 parser.py
 
 # person: <class 'A.person_pb2.Person'>
