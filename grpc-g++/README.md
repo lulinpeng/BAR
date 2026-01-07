@@ -14,6 +14,10 @@ g++ -std=c++14 -o server server.cpp utils.h hello.pb.cc hello.grpc.pb.cc $FLAG
 
 g++ -std=c++14 -o client client.cpp utils.h hello.pb.cc hello.grpc.pb.cc $FLAG
 
+g++ -std=c++14 -o server_compress server_compress.cpp utils.h hello.pb.cc hello.grpc.pb.cc $FLAG
+
+g++ -std=c++14 -o client_compress client_compress.cpp utils.h hello.pb.cc hello.grpc.pb.cc $FLAG
+
 
 # Code Format
 clang-format -style='{BasedOnStyle: google, ColumnLimit: 300}' -i *.cpp *.h
@@ -39,6 +43,36 @@ sh gen_certs.sh # generate certs
 
 ./server -h 0.0.0.0 -p 5000 -s -d
 ./client -h localhost -p 5000 -s -d
+```
+
+## Communication Compression Version
+Note that: the compression algorithm specified ***by the client controls request compression***, while the compression algorithm specified ***by the server controls response compression***, with **each operating independently**.
+
+To monitor the network traffic, you may use the command ```nload lo -a 4 -m```.
+
+```shell
+apt update && apt install -y nload iproute2
+ip a # list all network card
+# nload [network card name] -a [time window] -m
+nload lo -a 4 -m 
+```
+
+```shell
+# both enable gPRF compression
+./server_compress -h 0.0.0.0 -p 5000 -c # '-c' server compressses response
+./client_compress -h localhost -p 5000 -c # '-c' client compresses request
+
+# only client compresses request
+./server_compress -h 0.0.0.0 -p 5000
+./client_compress -h localhost -p 5000 -c 
+
+# only server compresses response 
+./server_compress -h 0.0.0.0 -p 5000 -c
+./client_compress -h localhost -p 5000
+
+# both do not enable gPRC compression
+./server_compress -h 0.0.0.0 -p 5000
+./client_compress -h localhost -p 5000
 ```
 
 # Sniffer
