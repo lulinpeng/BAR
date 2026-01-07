@@ -11,7 +11,7 @@ person.emails.append("aaa@xxx.com")
 person.emails.append("bbb@xxx.com")
 person.scores["a"] = 5
 person.scores["b"] = 4
-person.test_age = 4
+person.age = 4
 
 # serialize
 with open("person.bin", "wb") as f:
