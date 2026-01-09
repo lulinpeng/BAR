@@ -10,3 +10,5 @@
 
 # About OOM
 OOM (Out Of Memory) is triggered by the exhaustion of physical resources (RAM and swap), ultimately driven by virtual memory usage.
+
+To check for OOM events, run ```dmesg -T | grep -E "out of memory|Killed process"```
