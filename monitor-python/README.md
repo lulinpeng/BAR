@@ -7,6 +7,7 @@
 **Resident Set Size (RSS/RES)**: the physical memory actually allocated to a process.
 
 **Shared Memory (SHR)**: the phisical memory shared with other processes, such as system libraries (```libc```).
+![memory](memory.png)
 
 # About OOM
 OOM (Out Of Memory) is triggered by the exhaustion of physical resources (RAM and swap), ultimately driven by virtual memory usage.
