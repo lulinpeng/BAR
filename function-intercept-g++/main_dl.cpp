@@ -9,7 +9,7 @@ int main() {
   // RTLD_NOW, immediate binding: resolve all symbols at load time
   // RTLD_GLOBAL, Make symbols globally available for other loaded libraries
   // RTLD_LOCAL, Symbols are visible only to this dlopen() call
-  void *lib_handle = dlopen("./libtest.so", RTLD_LAZY);
+  void *lib_handle = dlopen("./libmylib.so", RTLD_LAZY);
   if (!lib_handle) {
     cout << "Error: " << dlerror() << endl;
     return 1;
