@@ -64,6 +64,7 @@ curl http://${OLLAMA_HOST}/api/generate -d '{"model": "llama3.2", "prompt":"Why 
 ```
 
 # More about Ollama
+## Directory Structure
 Refer to https://github.com/ollama/ollama/blob/v0.9.5/api/types.go#L416 for more details.
 
 ```shell
@@ -103,4 +104,18 @@ tree ~/.ollama
 #                 │   └── 32b
 #                 └── qwen3
 #                     └── 4b
+```
+
+## Edit
+
+```shell
+# parse ollama command
+cmd/cmd.go
+
+# all handlers for APIs
+server/rouges.go
+
+GenerateHandler # /api/generate
+ChatHandler # /api/chat
+
 ```
